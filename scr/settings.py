@@ -14,17 +14,18 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+from dotenv import load_dotenv
+load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2$4l8v^i^8sgmx5p0glkbaki&je39gky1nem=3drih403c_4vd'
-
+# SECRET_KEY = 'django-insecure-2$4l8v^i^8sgmx5p0glkbaki&je39gky1nem=3drih403c_4vd'
+SECRET_KEY=os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,6 +51,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 ROOT_URLCONF = 'scr.urls'
 
@@ -73,16 +77,22 @@ WSGI_APPLICATION = 'scr.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'book',
-        'USER': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        'PASSWORD': '123',
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'book',
+#         'USER': 'postgres',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#         'PASSWORD': '123',
+#
+#     }
+# }
 
-    }
+
+import dj_database_url
+DATABASES = {
+    'default': dj_database_url.parse(os.getenv('DATABASES'))
 }
 
 # Password validation
@@ -117,7 +127,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/'
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'  # Adjust as needed
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
