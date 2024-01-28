@@ -14,10 +14,16 @@ class UserRegisterView(View):
 
     def post(self,request):
         create_form=CustomUserCreateForm(request.POST)
-        create_form.is_valid()
-        create_form.save()
-        return redirect('users:login')
-        # # print(request.POST['username'])
+        if create_form.is_valid():
+            create_form.save()
+            return redirect('users:login')
+        else:
+            context = {
+                'form': create_form
+            }
+            return render(request, 'users/register.html',context=context)
+
+        # print(request.POST['username'])
         # username=request.POST['username']
         # first_name=request.POST['first_name']
         # last_name=request.POST['last_name']
@@ -42,11 +48,16 @@ class CustomUserLogin(View):
         return render(request, 'users/login.html', context)
 
     def post(self,request):
-        data=AuthenticationForm(data=request.POST)
-        data.is_valid()
-        user=data.get_user()
-        login(request,user)
-        return redirect('home')
+        login_form=AuthenticationForm(data=request.POST)
+        if login_form.is_valid():
+            user=login_form.get_user()
+            login(request,user)
+            return redirect('home')
+        else:
+            context = {
+                'form': login_form
+            }
+            return render(request, 'users/login.html', context)
 
 
 class LogoutView(View):

@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <title>{% block title %} Book Market  {% endblock title %}</title>
-    <style>
+
+<style>
         img{
         width:200px;
         height:200px;
         }
-    </style>
+</style>
 </head>
 <body>
 <h1>Book market</h1>
+<a href="{% url 'home' %}">Home Page</a>
+
 
 {% block content %}
 

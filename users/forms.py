@@ -6,11 +6,11 @@ class CustomUserCreateForm(ModelForm):
         model=CustomUser
         fields=['username','first_name','last_name','email','password','image']
 
-    def save(self, commit=True):
-        user=super().save(commit)
-        user.set_password(self.cleaned_data['password'])
-        user.save()
-        return user
+    # def save(self, commit=True):
+    #     user=super().save(commit)
+    #     user.set_password(self.cleaned_data['password'])
+    #     user.save()
+    #     return user
 
 class CustomUserUpdateForm(ModelForm):
     class Meta:
