@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 ROOT_URLCONF = 'scr.urls'
@@ -77,23 +77,23 @@ WSGI_APPLICATION = 'scr.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'book',
-#         'USER': 'postgres',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#         'PASSWORD': '123',
-#
-#     }
-# }
-
-
-import dj_database_url
 DATABASES = {
-    'default': dj_database_url.parse(os.getenv('DATABASES'))
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'book',
+        'USER': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'PASSWORD': '123',
+
+    }
 }
+
+
+# import dj_database_url
+# DATABASES = {
+#     'default': dj_database_url.parse(os.getenv('DATABASES'))
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -127,13 +127,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-# STATIC_URL = 'static/'
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'  # Adjust as needed
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+STATIC_URL = '/static/'  # Adjust as needed
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
