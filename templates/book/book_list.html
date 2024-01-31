@@ -4,9 +4,11 @@
 
 {% block content %}
 <h2>Landing page</h2>
+<div class="site">
 {% for book in books %}
 <a href="{% url 'books:book-detail' book.pk %}">Book Detail</a>
 <img style="width:200px; height:200px" src="{{ book.image_book.url }}"><br>
    <b> {{ book.title }} </b><hr>
 {% endfor %}
+</div>
 {% endblock content %}

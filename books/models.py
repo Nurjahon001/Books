@@ -8,7 +8,7 @@ class Books(models.Model):
     title=models.CharField(max_length=50)
     description=models.TextField()
     isbn=models.PositiveIntegerField(unique=True)
-    image_book=models.ImageField(default='books_image/default_book_image.png',upload_to='media/books_image')
+    image_book=models.ImageField(default='books_image/default_book_image.png',upload_to='books_image')
     price=models.DecimalField(max_digits=7,decimal_places=2)
     publisher=models.CharField(max_length=50,blank=True,null=True)
     create_at=models.DateField(auto_now_add=True)
