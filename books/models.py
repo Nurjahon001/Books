@@ -45,7 +45,7 @@ class BookAuthor(models.Model):
 
 class BookReview(models.Model):
     user=models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
-    book=models.ForeignKey(Books,on_delete=models.CASCADE)
+    book=models.ForeignKey(Books,on_delete=models.CASCADE,related_name='book_review')
     comment=models.TextField()
     star_given=models.PositiveIntegerField(default=0,validators=[MinValueValidator(1),MaxValueValidator(5)])
     create_at = models.DateField(auto_now_add=True)

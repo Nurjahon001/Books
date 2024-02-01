@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .forms import CustomUserCreateForm,CustomUserUpdateForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 class UserRegisterView(View):
     def get(self,request):
@@ -65,14 +66,14 @@ class LogoutView(View):
         logout(request)
         return render(request,'home.html')
 
-class ProfileView(View):
+class ProfileView(LoginRequiredMixin,View):
     def get(self,request):
         context={
             'user': request.user
         }
         return  render(request,'users/profile.html',context=context)
 
-class ProfileUpdateView(View):
+class ProfileUpdateView(LoginRequiredMixin,View):
     def get(self,request):
         update_form=CustomUserUpdateForm(instance=request.user)
         context={

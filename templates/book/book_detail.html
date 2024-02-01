@@ -10,6 +10,12 @@
 {{ book.price }} <br>
 {{ book.description }} <br>
 {{ book.create_at }} <br>
-<a href="{% url 'books:book-list' %}">Books</a>
+<a href="{% url 'books:book-list' %}">Books</a> <hr>
+{% for review in book.book_review.all %}
+<p><a href="{% url 'users:profile' %}">{{ user.username }}:</p></a> <b>{{ review.star_given }} stars |{{ review.create_at }}</b><br>
+{{ review.comment }}<br> <br>
+
+{% endfor %}
+
 
 {% endblock content %}

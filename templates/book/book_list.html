@@ -4,6 +4,10 @@
 
 {% block content %}
 <h2>Landing page</h2>
+<form method="get">
+   <input type="text" placeholder="Qidiruv" id="search" name="q" value="{{ search_query }}">
+   <button >Search</button>
+</form><br><br>
 <div class="site">
 {% for book in books %}
 <a href="{% url 'books:book-detail' book.pk %}">Book Detail</a>
@@ -11,4 +15,22 @@
    <b> {{ book.title }} </b><hr>
 {% endfor %}
 </div>
+<div class="pagination">
+            <span class="step-links">
+                {% if books.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ books.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ books.number }} of {{ books.paginator.num_pages }}.
+                </span>
+
+                {% if books.has_next %}
+                    <a href="?page={{ books.next_page_number }}">next</a>
+                    <a href="?page={{ books.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
 {% endblock content %}

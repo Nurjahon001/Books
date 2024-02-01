@@ -103,6 +103,7 @@ DATABASES = {
     'default': dj_database_url.parse(os.getenv('DATABASES'))
 }
 
+LOGIN_URL='users:login'
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
