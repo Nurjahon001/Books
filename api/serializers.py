@@ -17,6 +17,8 @@ class BooksSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+
 class BookReviewSerializer(serializers.ModelSerializer):
     user=CustomUserSerializer(read_only=True)
     book=BooksSerializer(read_only=True)
@@ -25,5 +27,16 @@ class BookReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookReview
         fields = ['comment','star_given','user','book','user_id','book_id']
+
+    def validate(self,data):
+        comment=data.get('comment')
+        if len(comment)>10:
+            raise ValueError(
+                {
+                    'status':False,
+                    'message':"Comment uzunligi oshib ketdi"
+                }
+            )
+        return data
 
 

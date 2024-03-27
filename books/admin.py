@@ -9,8 +9,8 @@ from .models import Books,Author,BookAuthor,BookReview
 
 
 class BookModelAdmin(admin.ModelAdmin):
+    list_display = ['title','description']
     search_fields = ['title','description','isbn']
-    list_display = ['title','isbn']
     list_filter = ['create_at']
 
 

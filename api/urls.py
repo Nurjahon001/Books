@@ -1,9 +1,18 @@
-from .views import BookReviewCRUD
+# from .views import BookReviewCRUD
 from rest_framework.routers import DefaultRouter
+from .views import BookListGenericView
+from django.urls import path
 
-router = DefaultRouter()
-router.register('reviews', BookReviewCRUD, basename='reviews')
-urlpatterns = router.urls
+app_name = 'api'
+urlpatterns=[
+    path('books/',BookListGenericView.as_view(), name='books'),
+    path('books/<int:pk>/', BookListGenericView.as_view(), name='books'),
+
+]
+
+# router = DefaultRouter()
+# router.register('reviews', BookReviewCRUD, basename='reviews')
+# urlpatterns = router.urls
 
 
 # from django.urls import path

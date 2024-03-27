@@ -10,13 +10,33 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
+from api.book.formats import format_books
 # Create your views here.
 
-class BookReviewCRUD(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated, ]
-    serializer_class = BookReviewSerializer
-    queryset = BookReview.objects.all().order_by("-create_at")
-    lookup_field = "pk"
+class BookListGenericView(generics.GenericAPIView):
+    def get(self,request,*args,**kwargs):
+        books=Books.objects.all().order_by('-create_at')
+        try:
+            books=[format_books(book) for book in books]
+            ctx={
+                'ctx':books
+            }
+            return Response(ctx,status=200)
+        except Exception as e:
+            return Response(f'Kitoblar mavjud emas\n{e}',status=400)
+    def delete(self,request,pk,*args,**kwargs):
+        try:
+            book=Books.objects.get(pk=pk)
+            book.delete()
+            return  Response('Ochirildi',status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(f'Bunaqa id da kitob yoq',status=status.HTTP_400_BAD_REQUEST)
+
+# class BookReviewCRUD(viewsets.ModelViewSet):
+#     permission_classes = [IsAuthenticated, ]
+#     serializer_class = BookReviewSerializer
+#     queryset = BookReview.objects.all().order_by("-create_at")
+#     lookup_field = "pk"
 
 # class BookReviewListAPIView(generics.ListCreateAPIView):
 #     serializer_class=BookReviewSerializer
@@ -45,32 +65,32 @@ class BookReviewCRUD(viewsets.ModelViewSet):
 #     queryset = BookReview.objects.all()
 #     lookup_field = "pk"
 
-# class BookReviewDetailUpdateDelateAPIView(APIView):
-#     def get(self,request,pk):
-#         book_review=BookReview.objects.get(pk=pk)
-#         serializer=BookReviewSerializer(book_review)
-#         return Response(data=serializer.data)
-#
-#     def delete(self,request,pk):
-#         book_review=BookReview.objects.get(pk=pk)
-#         book_review.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
-#
-#     def put(selfself,request,pk):
-#         book_review = BookReview.objects.get(pk=pk)
-#         serializer=BookReviewSerializer(instance=book_review,data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(status=status.HTTP_200_OK)
-#         return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-#
-#     def patch(selfself,request,pk):
-#         book_review = BookReview.objects.get(pk=pk)
-#         serializer=BookReviewSerializer(instance=book_review,data=request.data,partial=True)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(status=status.HTTP_200_OK)
-#         return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+class BookReviewDetailUpdateDelateAPIView(APIView):
+    def get(self,request,pk):
+        book_review=BookReview.objects.get(pk=pk)
+        serializer=BookReviewSerializer(book_review)
+        return Response(data=serializer.data)
+
+    def delete(self,request,pk):
+        book_review=BookReview.objects.get(pk=pk)
+        book_review.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def put(self,request,pk):
+        book_review = BookReview.objects.get(pk=pk)
+        serializer=BookReviewSerializer(instance=book_review,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_200_OK)
+        return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self,request,pk):
+        book_review = BookReview.objects.get(pk=pk)
+        serializer=BookReviewSerializer(instance=book_review,data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_200_OK)
+        return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 # class BookListAPIView(APIView):
 #     def get(self,request):
@@ -98,3 +118,5 @@ class BookReviewCRUD(viewsets.ModelViewSet):
 #         user=CustomUser.objects.get(pk=pk)
 #         serializer=CustomUserSerializer(user)
 #         return Response(data=serializer.data)
+
+

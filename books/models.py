@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator,MaxValueValidator
@@ -5,9 +6,10 @@ from users.models import CustomUser
 # Create your models here.
 
 class Books(models.Model):
+
+    isbn = models.CharField(max_length=13, unique=True, default=uuid.uuid4, editable=False)
     title=models.CharField(max_length=50)
     description=models.TextField()
-    isbn=models.PositiveIntegerField(unique=True)
     image_book=models.ImageField(default='books_image/default_book_image.png',upload_to='books_image')
     price=models.DecimalField(max_digits=7,decimal_places=2)
     publisher=models.CharField(max_length=50,blank=True,null=True)
